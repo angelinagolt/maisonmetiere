@@ -488,12 +488,12 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding
 const shots=["i32","i29","v43","i04","i16","i33","i01","i19","v49","i23","i07","i47","i10","i15","i45","i12","i22","i02","v36","i03","i46","i09","i05","v41","i44","i31","i18","i24","v40","i20","i21","i13","i27","i11","v25","i06","i39"];
 const gal=document.getElementById('gal');
 gal.innerHTML=shots.map(n=>n[0]==='v'
-  ? `<div class="ph"><video data-src="./${n}.mp4" poster="./${n}.jpg" muted autoplay loop playsinline preload="metadata" aria-hidden="true"></video></div>`
+  ? `<div class="ph"><video data-src="./${n}.mp4" poster="./${n}.jpg" muted autoplay loop playsinline preload="none" aria-hidden="true"></video></div>`
   : `<div class="ph"><img loading="lazy" src="./${n}.jpg" alt=""></div>`).join('');
 /* videos: always muted so browsers allow them to start on their own; play while on screen */
 const vids=[...document.querySelectorAll('video')];
 /* Safari only plays a video file it can fetch in pieces; load each video whole and play it from memory instead */
-const load=v=>v._ld||(v._ld=fetch(v.dataset.src).then(r=>{if(!r.ok)throw 0;return r.blob()}).then(b=>{v.src=URL.createObjectURL(new Blob([b],{type:'video/mp4'}))}).catch(()=>{v.src=v.dataset.src}));
+const load=v=>v._ld||(v._ld=Promise.resolve(v.src||(v.src=v.dataset.src,v.load(),v.src)));
 const tryPlay=v=>{v.muted=true;v.defaultMuted=true;load(v).then(()=>{const p=v.play();if(p&&p.catch)p.catch(()=>{})})};
 vids.forEach(v=>{v.muted=true;v.defaultMuted=true;v.setAttribute('muted','')});
 vids.filter(v=>!v.closest('#gal')).forEach(tryPlay);
@@ -501,7 +501,7 @@ const vio=new IntersectionObserver(es=>es.forEach(e=>{e.isIntersecting?tryPlay(e
 gal.querySelectorAll('video').forEach(v=>vio.observe(v));
 /* Safari / Low Power Mode can block autoplay until the visitor touches the page: start them on the first touch, click or scroll */
 const kick=()=>{vids.forEach(v=>{const r=v.getBoundingClientRect();if(r.bottom>-150&&r.top<innerHeight+150)tryPlay(v)})};
-['pointerdown','touchstart','scroll','keydown'].forEach(t=>addEventListener(t,kick,{passive:true}));
+['pointerdown','touchstart','keydown'].forEach(t=>addEventListener(t,kick,{passive:true,once:true}));
 /* tap a video to play or pause it */
 vids.forEach(v=>v.addEventListener('click',()=>v.paused?tryPlay(v):v.pause()));
 
