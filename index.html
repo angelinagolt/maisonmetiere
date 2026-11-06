@@ -270,7 +270,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding
 
   <div class="about" id="about">
     <div class="video" id="video">
-      <video data-src="img/angelina.mp4" poster="img/angelina-poster.jpg" autoplay muted loop playsinline aria-label="Angelina"></video>
+      <video data-src="angelina.mp4" poster="angelina-poster.jpg" autoplay muted loop playsinline aria-label="Angelina"></video>
     </div>
     <div>
       <h1 class="name">Hi, I’m Angelina <span class="g">G</span>olt</h1>
@@ -351,8 +351,8 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding
     </div>
 
     <div class="menu-sheets">
-      <img src="img/menu-j-1.jpg?v=4" alt="Menu, sections I and II">
-      <img src="img/menu-j-2.jpg?v=4" alt="Menu, sections III, IV and V">
+      <img src="menu-j-1.jpg?v=4" alt="Menu, sections I and II">
+      <img src="menu-j-2.jpg?v=4" alt="Menu, sections III, IV and V">
     </div>
   </section>
 </div>
@@ -488,8 +488,8 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding
 const shots=["i32","i29","v43","i04","i16","i33","i01","i19","v49","i23","i07","i47","i10","i15","i45","i12","i22","i02","v36","i03","i46","i09","i05","v41","i44","i31","i18","i24","v40","i20","i21","i13","i27","i11","v25","i06","i39"];
 const gal=document.getElementById('gal');
 gal.innerHTML=shots.map(n=>n[0]==='v'
-  ? `<div class="ph"><video data-src="img/insp/${n}.mp4" poster="img/insp/${n}.jpg" muted autoplay loop playsinline preload="metadata" aria-hidden="true"></video></div>`
-  : `<div class="ph"><img loading="lazy" src="img/insp/${n}.jpg" alt=""></div>`).join('');
+  ? `<div class="ph"><video data-src="./${n}.mp4" poster="./${n}.jpg" muted autoplay loop playsinline preload="metadata" aria-hidden="true"></video></div>`
+  : `<div class="ph"><img loading="lazy" src="./${n}.jpg" alt=""></div>`).join('');
 /* videos: always muted so browsers allow them to start on their own; play while on screen */
 const vids=[...document.querySelectorAll('video')];
 /* Safari only plays a video file it can fetch in pieces; load each video whole and play it from memory instead */
